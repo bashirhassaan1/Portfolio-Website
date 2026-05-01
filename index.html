@@ -52,8 +52,64 @@
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
+    position: relative;
   }
 
+  .nav-logo::after,
+  .nav-logo::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, var(--purple), var(--accent));
+    left: 0;
+    transform: scaleX(0);
+    transition: transform 0.4s ease-out;
+  }
+  .nav-logo::after {
+    bottom: -4px;
+    transform-origin: right;
+  }
+  .nav-logo::before {
+    top: -4px;
+    transform-origin: left;
+  }
+  .nav-logo:hover::after,
+  .nav-logo:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* Hamburger — hidden on desktop */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 110;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-dark);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+  nav.nav-open .nav-hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  nav.nav-open .nav-hamburger span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  nav.nav-open .nav-hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
 
   .nav-links {
     display: flex;
@@ -876,7 +932,46 @@
 
   @media (max-width: 900px) {
     nav { padding: 1rem 1.5rem; }
-    .nav-links { display: none; }
+
+    /* Show hamburger */
+    .nav-hamburger { display: flex; }
+
+    /* Mobile dropdown — slides down from top */
+    .nav-links {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      flex-direction: column;
+      background: rgba(248,246,255,0.97);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 5rem 2rem 2rem;
+      gap: 0;
+      transform: translateY(-110%);
+      transition: transform 0.38s cubic-bezier(0.4,0,0.2,1);
+      z-index: 99;
+      border-bottom: 2px solid rgba(107,47,217,0.12);
+      box-shadow: 0 8px 32px rgba(107,47,217,0.10);
+      pointer-events: none;
+    }
+    nav.nav-open .nav-links {
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .nav-links li {
+      border-bottom: 1px solid rgba(107,47,217,0.08);
+    }
+    .nav-links li:last-child { border-bottom: none; }
+    .nav-links a {
+      display: block;
+      padding: 1rem 0;
+      font-size: 1.05rem;
+    }
+    .nav-links a.nav-cta {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.7rem 1.8rem;
+    }
+
     .section, .services-section, .work-section, .process-section, .contact-section { padding: 5rem 1.5rem; }
     .about-grid, .services-grid { grid-template-columns: 1fr; }
     .work-grid { grid-template-columns: 1fr; }
@@ -887,17 +982,28 @@
     .contact-wrap { grid-template-columns: 1fr; gap: 3rem; }
     .form-row { grid-template-columns: 1fr; }
     footer { flex-direction: column; text-align: center; }
+
+    /* Hero services strip */
+    .hero-services-strip { gap: 1.2rem; padding: 1rem 1.5rem; }
+
+    /* Stats section */
+    .stats-section { padding: 5rem 1.5rem; }
   }
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
+<nav id="main-nav">
   <a href="#" class="nav-logo">
     <img src="images/6.png" alt="ZenDigi" class="logo-icon" style="width:auto;height:36px;object-fit:contain;">
   </a>
-  <ul class="nav-links">
+  <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
     <li><a href="#work">Work</a></li>
@@ -1206,6 +1312,41 @@
     <li><a href="#contact">Contact</a></li>
   </ul>
 </footer>
+
+<script>
+  (function () {
+    const nav       = document.getElementById('main-nav');
+    const hamburger = document.getElementById('nav-hamburger');
+    const links     = document.getElementById('nav-links');
+
+    function openMenu() {
+      nav.classList.add('nav-open');
+      hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function closeMenu() {
+      nav.classList.remove('nav-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
+    function toggleMenu() {
+      nav.classList.contains('nav-open') ? closeMenu() : openMenu();
+    }
+
+    hamburger.addEventListener('click', toggleMenu);
+
+    // Close when any nav link is clicked
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+    // Close when clicking outside the nav
+    document.addEventListener('click', e => {
+      if (!nav.contains(e.target)) closeMenu();
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeMenu();
+    });
+  })();
+</script>
 
 <script type="module">
   import { initParticleWave } from './js/particle-wave.js';
