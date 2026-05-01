@@ -96,6 +96,15 @@
     padding: 8rem 3rem 5rem;
   }
 
+  #particle-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none; /* mouse tracking done on parent .hero */
+  }
+
   .hero-blob {
     position: absolute;
     border-radius: 50%;
@@ -349,6 +358,22 @@
   .services-section {
     background: var(--purple-deep);
     padding: 7rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #particle-canvas-services {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .services-section .section-inner {
+    position: relative;
+    z-index: 1;
   }
 
   .services-section .section-label { color: var(--purple-light); }
@@ -584,7 +609,14 @@
   }
 
   /* CONTACT */
-  .contact-section { background: var(--white); padding: 7rem 3rem; }
+  .contact-section {
+    background-image: linear-gradient(135deg, #fff 0%, #f3eeff 50%, #fff 100%);
+    background-size: 200% 200%;
+    background-position: left center;
+    padding: 7rem 3rem;
+    transition: background-position 0.8s ease;
+  }
+  .contact-section:hover { background-position: right center; }
 
   .contact-wrap {
     max-width: 1200px;
@@ -876,6 +908,7 @@
 
 <!-- HERO -->
 <section class="hero" id="home">
+  <canvas id="particle-canvas"></canvas>
   <div class="hero-blob blob-1"></div>
   <div class="hero-blob blob-2"></div>
   <div class="hero-blob blob-3"></div>
@@ -947,6 +980,7 @@
 
 <!-- SERVICES -->
 <section class="services-section" id="services">
+  <canvas id="particle-canvas-services"></canvas>
   <div class="section-inner">
     <p class="section-label">What We Do</p>
     <h2 class="section-title">Full-spectrum creative<br><em>solutions for brands.</em></h2>
@@ -1173,5 +1207,23 @@
   </ul>
 </footer>
 
+<script type="module">
+  import { initParticleWave } from './js/particle-wave.js';
+
+  // Hero — cyan → violet
+  initParticleWave('particle-canvas');
+
+  // Services — warm gold → pink
+  initParticleWave('particle-canvas-services', {
+    colorFn: (nx, ny, n) => {
+      const t = (n + 1) / 2;
+      const r = 255;
+      const g = Math.round((0.55 + nx * 0.25) * 255);
+      const b = Math.round((0.30 + ny * 0.40) * 255);
+      const a = (0.38 + t * 0.55).toFixed(2);
+      return `rgba(${r},${g},${b},${a})`;
+    },
+  });
+</script>
 </body>
 </html>
