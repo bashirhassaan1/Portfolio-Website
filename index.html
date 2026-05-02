@@ -391,7 +391,7 @@
   }
 
   .card-num.accent { color: #FFEEF6; }
-  .card-num.amber { color: #FFF4E0; }
+  .card-num.amber { color: #432d6e; }
 
   .card-title {
     font-family: 'Syne', sans-serif;
@@ -932,6 +932,222 @@
   .about-dark .card-title { color: var(--white); }
   .about-dark .card-body { color: rgba(255,255,255,0.65); }
 
+  /* About dark cards: hover / focus dropdown (title visible → body drops in) */
+  .about-dark .about-card-expandable {
+    padding: 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 0fr;
+    transition:
+      grid-template-rows 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.35s ease;
+    cursor: default;
+  }
+
+  .about-dark .about-card-expandable:hover,
+  .about-dark .about-card-expandable:focus-within {
+    grid-template-rows: auto 1fr;
+    transform: none;
+    box-shadow: 0 22px 48px rgba(26, 10, 59, 0.35);
+  }
+
+  .about-dark .about-card-expandable:focus-visible {
+    outline: 2px solid var(--purple-light);
+    outline-offset: 4px;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--head {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.75rem 1.65rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0);
+  }
+
+  .about-dark .about-card-expandable:hover .about-card-slide--head,
+  .about-dark .about-card-expandable:focus-within .about-card-slide--head {
+    transform: translateY(0);
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--head .card-title {
+    margin-bottom: 0;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide-about-wrap {
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--body {
+    position: relative;
+    padding: 1.35rem 1.85rem 1.95rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+    overflow: hidden;
+    isolation: isolate;
+    background: linear-gradient(165deg, #fcfaff 0%, #f5f0ff 50%, #ede8ff 100%);
+    box-shadow: 0 -8px 36px rgba(45, 18, 96, 0.15);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(-100%);
+  }
+
+  .about-card-body-smoke {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .about-card-body-smoke .about-smoke-blob {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(60px);
+    mix-blend-mode: multiply;
+    opacity: 0.66;
+    will-change: transform;
+  }
+
+  .about-card-body-smoke .about-smoke-blob--1 {
+    background: radial-gradient(circle, rgba(123, 47, 247, 0.95) 0%, transparent 72%);
+    top: -8%;
+    left: -22%;
+    animation: aboutSmokeFloat1 12s ease-in-out infinite;
+  }
+
+  .about-card-body-smoke .about-smoke-blob--2 {
+    background: radial-gradient(circle, rgba(0, 198, 255, 0.92) 0%, transparent 72%);
+    bottom: -18%;
+    right: -22%;
+    animation: aboutSmokeFloat2 14s ease-in-out infinite;
+  }
+
+  .about-card-body-smoke .about-smoke-blob--3 {
+    background: radial-gradient(circle, rgba(255, 78, 205, 0.92) 0%, transparent 72%);
+    top: 28%;
+    left: 38%;
+    animation: aboutSmokeFloat3 10s ease-in-out infinite;
+  }
+
+  .about-card-body-smoke .about-smoke-blob--4 {
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.9) 0%, transparent 72%);
+    bottom: 12%;
+    left: 6%;
+    animation: aboutSmokeFloat4 16s ease-in-out infinite;
+  }
+
+  @keyframes aboutSmokeFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(22px, 16px) scale(1.1); }
+  }
+  @keyframes aboutSmokeFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-20px, -16px) scale(1.08); }
+  }
+  @keyframes aboutSmokeFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-14px, 20px) scale(1.1); }
+  }
+  @keyframes aboutSmokeFloat4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(14px, -16px) scale(1.14); }
+  }
+
+  .about-card-body-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .about-dark .about-card-expandable:hover .about-card-slide--body,
+  .about-dark .about-card-expandable:focus-within .about-card-slide--body {
+    transform: translateY(0);
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--body::after {
+    content: "";
+    position: absolute;
+    width: 42px;
+    height: 3px;
+    bottom: 1.1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 3px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .about-dark .about-card-expandable:nth-child(1) .about-card-slide--body::after {
+    background: var(--purple-light);
+  }
+  .about-dark .about-card-expandable:nth-child(2) .about-card-slide--body::after {
+    background: var(--accent);
+  }
+  .about-dark .about-card-expandable:nth-child(3) .about-card-slide--body::after {
+    background: #432d6e;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--body .card-num {
+    margin-bottom: 0.45rem;
+    color: rgba(155, 111, 239, 0.45);
+    font-size: 3rem;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--body .card-num.accent {
+    color: rgba(255, 92, 157, 0.4);
+  }
+  .about-dark .about-card-expandable .about-card-slide--body .card-num.amber {
+    color: #432d6e;
+  }
+
+  .about-dark .about-card-expandable .about-card-slide--body .card-body {
+    color: var(--text-mid);
+    margin: 0;
+    max-width: 26ch;
+  }
+
+  @media (hover: none) {
+    .about-dark .about-card-expandable {
+      grid-template-rows: auto 1fr;
+    }
+    .about-dark .about-card-expandable .about-card-slide--head {
+      transform: translateY(0);
+    }
+    .about-dark .about-card-expandable .about-card-slide--body {
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .about-dark .about-card-expandable {
+      transition: none;
+      grid-template-rows: auto 1fr;
+    }
+    .about-dark .about-card-expandable .about-card-slide--head,
+    .about-dark .about-card-expandable .about-card-slide--body {
+      transition: none;
+      transform: none;
+    }
+    .about-card-body-smoke .about-smoke-blob {
+      animation: none;
+    }
+  }
+
   .about-branding {
     position: relative;
     z-index: 1;
@@ -1116,20 +1332,62 @@
     <h2 class="section-title">Not just designers.<br><em>Storytellers & visionaries.</em></h2>
 
     <div class="about-grid">
-      <div class="about-card">
-        <div class="card-num">01</div>
-        <div class="card-title">The Origin</div>
-        <p class="card-body">Drawing inspiration from the Urdu word "Zindigi" meaning life, we embrace the concept of giving life to the brands we work with. Our designs capture the essence and energy of your business.</p>
+      <div class="about-card about-card-expandable" tabindex="0">
+        <div class="about-card-slide about-card-slide--head">
+          <div class="card-title">The Origin</div>
+        </div>
+        <div class="about-card-slide-about-wrap">
+          <div class="about-card-slide about-card-slide--body">
+            <div class="about-card-body-smoke" aria-hidden="true">
+              <span class="about-smoke-blob about-smoke-blob--1"></span>
+              <span class="about-smoke-blob about-smoke-blob--2"></span>
+              <span class="about-smoke-blob about-smoke-blob--3"></span>
+              <span class="about-smoke-blob about-smoke-blob--4"></span>
+            </div>
+            <div class="about-card-body-content">
+              <div class="card-num">01</div>
+              <p class="card-body">Drawing inspiration from the Urdu word "Zindigi" meaning life, we embrace the concept of giving life to the brands we work with. Our designs capture the essence and energy of your business.</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="about-card">
-        <div class="card-num accent" style="color:#FFEEF6;">02</div>
-        <div class="card-title">The Story</div>
-        <p class="card-body">We're storytellers, visionaries, and creators. We bring brands to life through captivating design, innovative digital strategies, and a relentless passion for creativity that resonates with your audience.</p>
+      <div class="about-card about-card-expandable" tabindex="0">
+        <div class="about-card-slide about-card-slide--head">
+          <div class="card-title">The Story</div>
+        </div>
+        <div class="about-card-slide-about-wrap">
+          <div class="about-card-slide about-card-slide--body">
+            <div class="about-card-body-smoke" aria-hidden="true">
+              <span class="about-smoke-blob about-smoke-blob--1"></span>
+              <span class="about-smoke-blob about-smoke-blob--2"></span>
+              <span class="about-smoke-blob about-smoke-blob--3"></span>
+              <span class="about-smoke-blob about-smoke-blob--4"></span>
+            </div>
+            <div class="about-card-body-content">
+              <div class="card-num accent">02</div>
+              <p class="card-body">We're storytellers, visionaries, and creators. We bring brands to life through captivating design, innovative digital strategies, and a relentless passion for creativity that resonates with your audience.</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="about-card">
-        <div class="card-num amber" style="color:#FFF4E0;">03</div>
-        <div class="card-title">The Goal</div>
-        <p class="card-body">Industry-standard, trendy designs that are affordable and sustainable. We deliver creative solutions clients can rely on for the long run — vibrant, relevant, and adapted to changing trends.</p>
+      <div class="about-card about-card-expandable" tabindex="0">
+        <div class="about-card-slide about-card-slide--head">
+          <div class="card-title">The Goal</div>
+        </div>
+        <div class="about-card-slide-about-wrap">
+          <div class="about-card-slide about-card-slide--body">
+            <div class="about-card-body-smoke" aria-hidden="true">
+              <span class="about-smoke-blob about-smoke-blob--1"></span>
+              <span class="about-smoke-blob about-smoke-blob--2"></span>
+              <span class="about-smoke-blob about-smoke-blob--3"></span>
+              <span class="about-smoke-blob about-smoke-blob--4"></span>
+            </div>
+            <div class="about-card-body-content">
+              <div class="card-num amber">03</div>
+              <p class="card-body">Industry-standard, trendy designs that are affordable and sustainable. We deliver creative solutions clients can rely on for the long run — vibrant, relevant, and adapted to changing trends.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
