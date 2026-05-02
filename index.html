@@ -666,6 +666,8 @@
 
   /* CONTACT */
   .contact-section {
+    position: relative;
+    overflow: hidden;
     background-image: linear-gradient(135deg, #fff 0%, #f3eeff 50%, #fff 100%);
     background-size: 200% 200%;
     background-position: left center;
@@ -674,7 +676,80 @@
   }
   .contact-section:hover { background-position: right center; }
 
+  .gradient-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+    filter: blur(70px);
+  }
+  .contact-section:hover .gradient-bg { opacity: 1; }
+
+  .blob {
+    position: absolute;
+    width: 45%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  .blob-1 {
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, #b388ff 0%, transparent 70%);
+    animation: contactBlobDrift1 11s ease-in-out infinite;
+  }
+  .blob-2 {
+    top: 20%;
+    right: -15%;
+    background: radial-gradient(circle, #ff6ec7 0%, transparent 70%);
+    animation: contactBlobDrift2 14s ease-in-out infinite;
+  }
+  .blob-3 {
+    bottom: -15%;
+    left: 15%;
+    background: radial-gradient(circle, #4f8cff 0%, transparent 70%);
+    animation: contactBlobDrift3 9s ease-in-out infinite;
+  }
+  .blob-4 {
+    bottom: 10%;
+    right: 10%;
+    background: radial-gradient(circle, #ffa552 0%, transparent 70%);
+    animation: contactBlobDrift4 12s ease-in-out infinite;
+  }
+  .blob-5 {
+    top: 40%;
+    left: 35%;
+    background: radial-gradient(circle, #8a5bff 0%, transparent 70%);
+    animation: contactBlobDrift5 7s ease-in-out infinite;
+  }
+
+  @keyframes contactBlobDrift1 {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(20%, 15%) scale(1.15) rotate(20deg); }
+  }
+  @keyframes contactBlobDrift2 {
+    0%, 100% { transform: translate(0, 0) scale(1.1) rotate(0deg); }
+    50% { transform: translate(-15%, 25%) scale(0.95) rotate(-15deg); }
+  }
+  @keyframes contactBlobDrift3 {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(25%, -20%) scale(1.2) rotate(25deg); }
+  }
+  @keyframes contactBlobDrift4 {
+    0%, 100% { transform: translate(0, 0) scale(0.95) rotate(0deg); }
+    50% { transform: translate(-20%, -15%) scale(1.1) rotate(-30deg); }
+  }
+  @keyframes contactBlobDrift5 {
+    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    50% { transform: translate(15%, 20%) scale(1.25) rotate(40deg); }
+  }
+
   .contact-wrap {
+    position: relative;
+    z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
@@ -1242,6 +1317,13 @@
 
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
+  <div class="gradient-bg" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+    <span class="blob blob-5"></span>
+  </div>
   <div class="contact-wrap">
     <div>
       <p class="section-label">Get in Touch</p>
