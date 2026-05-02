@@ -676,75 +676,67 @@
   }
   .contact-section:hover { background-position: right center; }
 
-  .gradient-bg {
+  .gradient-smoke {
     position: absolute;
     inset: 0;
     z-index: 0;
     opacity: 0;
-    transition: opacity 0.8s ease;
+    transition: opacity 0.5s ease;
     pointer-events: none;
-    filter: blur(70px);
   }
-  .contact-section:hover .gradient-bg { opacity: 1; }
+  .contact-section:hover .gradient-smoke { opacity: 1; }
 
-  .blob {
+  .gradient-smoke .blob {
     position: absolute;
-    width: 45%;
-    aspect-ratio: 1;
+    width: 500px;
+    height: 500px;
     border-radius: 50%;
-    mix-blend-mode: screen;
+    filter: blur(100px);
+    mix-blend-mode: multiply;
+    opacity: 0.5;
     will-change: transform;
   }
-  .blob-1 {
-    top: -10%;
-    left: -10%;
-    background: radial-gradient(circle, #b388ff 0%, transparent 70%);
-    animation: contactBlobDrift1 11s ease-in-out infinite;
+
+  .gradient-smoke .b1 {
+    background: radial-gradient(circle, #7b2ff7, transparent);
+    top: -120px;
+    left: -120px;
+    animation: smokeFloat1 12s ease-in-out infinite;
   }
-  .blob-2 {
-    top: 20%;
-    right: -15%;
-    background: radial-gradient(circle, #ff6ec7 0%, transparent 70%);
-    animation: contactBlobDrift2 14s ease-in-out infinite;
+  .gradient-smoke .b2 {
+    background: radial-gradient(circle, #00c6ff, transparent);
+    bottom: -140px;
+    right: -120px;
+    animation: smokeFloat2 14s ease-in-out infinite;
   }
-  .blob-3 {
-    bottom: -15%;
-    left: 15%;
-    background: radial-gradient(circle, #4f8cff 0%, transparent 70%);
-    animation: contactBlobDrift3 9s ease-in-out infinite;
+  .gradient-smoke .b3 {
+    background: radial-gradient(circle, #ff4ecd, transparent);
+    top: 50%;
+    left: 60%;
+    animation: smokeFloat3 10s ease-in-out infinite;
   }
-  .blob-4 {
-    bottom: 10%;
-    right: 10%;
-    background: radial-gradient(circle, #ffa552 0%, transparent 70%);
-    animation: contactBlobDrift4 12s ease-in-out infinite;
-  }
-  .blob-5 {
-    top: 40%;
-    left: 35%;
-    background: radial-gradient(circle, #8a5bff 0%, transparent 70%);
-    animation: contactBlobDrift5 7s ease-in-out infinite;
+  .gradient-smoke .b4 {
+    background: radial-gradient(circle, #ff8c00, transparent);
+    bottom: 20%;
+    left: 30%;
+    animation: smokeFloat4 16s ease-in-out infinite;
   }
 
-  @keyframes contactBlobDrift1 {
-    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    50% { transform: translate(20%, 15%) scale(1.15) rotate(20deg); }
+  @keyframes smokeFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(80px, 60px) scale(1.2); }
   }
-  @keyframes contactBlobDrift2 {
-    0%, 100% { transform: translate(0, 0) scale(1.1) rotate(0deg); }
-    50% { transform: translate(-15%, 25%) scale(0.95) rotate(-15deg); }
+  @keyframes smokeFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-70px, -50px) scale(1.1); }
   }
-  @keyframes contactBlobDrift3 {
-    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    50% { transform: translate(25%, -20%) scale(1.2) rotate(25deg); }
+  @keyframes smokeFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-60px, 80px) scale(1.15); }
   }
-  @keyframes contactBlobDrift4 {
-    0%, 100% { transform: translate(0, 0) scale(0.95) rotate(0deg); }
-    50% { transform: translate(-20%, -15%) scale(1.1) rotate(-30deg); }
-  }
-  @keyframes contactBlobDrift5 {
-    0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-    50% { transform: translate(15%, 20%) scale(1.25) rotate(40deg); }
+  @keyframes smokeFloat4 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(50px, -70px) scale(1.25); }
   }
 
   .contact-wrap {
@@ -1317,12 +1309,11 @@
 
 <!-- CONTACT -->
 <section class="contact-section" id="contact">
-  <div class="gradient-bg" aria-hidden="true">
-    <span class="blob blob-1"></span>
-    <span class="blob blob-2"></span>
-    <span class="blob blob-3"></span>
-    <span class="blob blob-4"></span>
-    <span class="blob blob-5"></span>
+  <div class="gradient-smoke" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <span class="blob b4"></span>
   </div>
   <div class="contact-wrap">
     <div>
