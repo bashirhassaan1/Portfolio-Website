@@ -505,6 +505,9 @@
     background: var(--purple);
     cursor: default;
     contain: layout;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+    transform: translateZ(0);
   }
 
   .work-card:nth-child(1) { background: linear-gradient(135deg, #1a0533 0%, #6B2FD9 100%); }
