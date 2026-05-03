@@ -61,10 +61,24 @@ export function initParticleWave(canvasId, options = {}) {
     return `rgba(${r},${g},${b},${a})`;
   });
 
+  const pauseWhenHidden = options.pauseWhenHidden !== false;
+
   const mouse  = { x: -99999, y: -99999 };
   let particles = [];
   let time      = 0;
   let animId    = null;
+
+  /** When off-screen (section not intersecting viewport), skip draw to save main-thread work while scrolling elsewhere. */
+  let visibleToUser = true;
+  if (pauseWhenHidden && typeof IntersectionObserver !== 'undefined') {
+    const containerForViz = canvas.parentElement;
+    if (containerForViz) {
+      const vizIo = new IntersectionObserver(entries => {
+        visibleToUser = entries.some(e => e.isIntersecting);
+      }, { threshold: 0, rootMargin: '0px' });
+      vizIo.observe(containerForViz);
+    }
+  }
 
   // ── Grid ─────────────────────────────────────────────────────────────────
   function buildGrid() {
@@ -94,6 +108,7 @@ export function initParticleWave(canvasId, options = {}) {
   function startAnim() {
     function frame() {
       animId = requestAnimationFrame(frame);
+      if (pauseWhenHidden && !visibleToUser) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       time += NOISE_Z_SPEED;
 
