@@ -36,7 +36,15 @@
     align-items: center;
     background: rgba(248,246,255,0.85);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(107,47,217,0.08);
+  }
+
+  /** Full-width blur under fixed nav is expensive while large photos scroll underneath; swap to opaque bar after scroll / menu open. */
+  nav.nav-solid {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(248,246,255,0.98);
   }
 
   .nav-logo {
@@ -504,10 +512,8 @@
     aspect-ratio: 4/3;
     background: var(--purple);
     cursor: default;
-    contain: layout;
-    content-visibility: auto;
-    contain-intrinsic-size: auto 300px;
-    transform: translateZ(0);
+    contain: layout style paint;
+    isolation: isolate;
   }
 
   .work-card:nth-child(1) { background: linear-gradient(135deg, #1a0533 0%, #6B2FD9 100%); }
@@ -1130,6 +1136,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
     .about-dark .about-card-expandable {
       transition: none;
       grid-template-rows: auto 1fr;

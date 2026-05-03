@@ -38,12 +38,6 @@ export function initParticleWave(canvasId, options = {}) {
   const canvas = document.getElementById(canvasId);
   if (!canvas) { console.warn('[ParticleWave] canvas not found:', canvasId); return; }
 
-  // #region agent log
-  const _dbg = (hypothesisId, loc, msg, data) => {
-    fetch('http://127.0.0.1:7422/ingest/3cfd1a34-c5b0-478c-9a3d-d6b428fd9bdb',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'3e95c6'},body:JSON.stringify({sessionId:'3e95c6',runId:'post-fix',hypothesisId,location:loc,message:msg,data,timestamp:Date.now()})}).catch(()=>{});
-  };
-  // #endregion agent log
-
   const ctx = canvas.getContext('2d');
 
   // Tuneable constants
@@ -80,7 +74,6 @@ export function initParticleWave(canvasId, options = {}) {
     const containerForViz = canvas.parentElement;
     if (containerForViz) {
       const vizIo = new IntersectionObserver(entries => {
-        entries.forEach(e => _dbg('H3', `particle-wave.js:${canvasId}:vizIo`, 'visibility', { intersecting: e.isIntersecting, ratio: e.intersectionRatio }));
         visibleToUser = entries.some(e => e.isIntersecting);
       }, { threshold: 0, rootMargin: '0px' });
       vizIo.observe(containerForViz);
@@ -100,18 +93,11 @@ export function initParticleWave(canvasId, options = {}) {
   }
 
   // ── Resize ───────────────────────────────────────────────────────────────
-  let resizeCount = 0;
-  let lastResizeTs = 0;
   function resize() {
     const el = canvas.parentElement;
     const w  = el.clientWidth  || window.innerWidth;
     const h  = el.clientHeight || window.innerHeight;
     if (!w || !h) return;
-    resizeCount++;
-    const nowMs = typeof performance !== 'undefined' ? performance.now() : 0;
-    const delta = lastResizeTs ? nowMs - lastResizeTs : 0;
-    lastResizeTs = nowMs;
-    _dbg('H2', `particle-wave.js:${canvasId}:resize`, 'canvas resize/buildGrid', { w, h, resizeCount, msSincePrev: delta });
     canvas.width  = w;
     canvas.height = h;
     buildGrid();
